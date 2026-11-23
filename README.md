@@ -1,5 +1,7 @@
 # 💳 AI-Powered Credit Risk Decision System with Explainable ML
 
+> **⚠️ Being rebuilt.** This version was trained on a small synthetic dataset where approval follows a simple rule (credit history plus an income cut-off), which is why every model scores near-perfectly. The target is also loan *approval*, not loan *default*. A rebuild on real Lending Club loan data, with an out-of-time split, calibration and a cost-based approval threshold, is in progress. Treat the results below as a learning exercise, not a credit model.
+
 ## 📌 Project Overview
 This project is an end-to-end machine learning system that predicts loan default risk and supports lending decisions using customer financial and demographic data.
 
