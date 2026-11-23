@@ -1,0 +1,372 @@
+{
+  "splits": {
+    "train": {
+      "loans": 72566,
+      "default_rate": 0.12581649808450238,
+      "issued": "Jun 2007 to Dec 2012"
+    },
+    "early_stop": {
+      "loans": 41124,
+      "default_rate": 0.12727361151638947,
+      "issued": "Jan 2013 to Jun 2013"
+    },
+    "calibrate": {
+      "loans": 59298,
+      "default_rate": 0.12047623865897669,
+      "issued": "Jul 2013 to Dec 2013"
+    },
+    "test": {
+      "loans": 136967,
+      "default_rate": 0.13691619149138112,
+      "issued": "Jan 2014 to Oct 2014"
+    }
+  },
+  "comparison_test": [
+    {
+      "model": "Logistic regression (application data)",
+      "roc_auc": 0.6337968191149274,
+      "pr_auc": 0.2060117820349084,
+      "ks": 0.193167000803515,
+      "roc_auc_ci": [
+        0.6297952589096218,
+        0.6375859232285878
+      ]
+    },
+    {
+      "model": "LightGBM (application data)",
+      "roc_auc": 0.6378084176593385,
+      "pr_auc": 0.20775913200338514,
+      "ks": 0.19803149664798447,
+      "roc_auc_ci": [
+        0.6340533990062933,
+        0.641850346492113
+      ]
+    },
+    {
+      "model": "LC sub-grade alone (benchmark)",
+      "roc_auc": 0.658260222885292,
+      "pr_auc": 0.21446971924661135,
+      "ks": 0.23579964585897584,
+      "roc_auc_ci": [
+        0.6537571702998717,
+        0.6623214151248399
+      ]
+    },
+    {
+      "model": "LightGBM + LC sub-grade",
+      "roc_auc": 0.6645595232517547,
+      "pr_auc": 0.22205836286034053,
+      "ks": 0.24350664086842239,
+      "roc_auc_ci": [
+        0.660567255708264,
+        0.6688308581834548
+      ]
+    }
+  ],
+  "best_iteration": 267,
+  "calibration_test": {
+    "brier": 0.11505212156888955,
+    "mean_predicted": 0.12364350513563518,
+    "actual_rate": 0.13691619149138112,
+    "deciles": [
+      {
+        "predicted": 0.0418,
+        "actual": 0.0512,
+        "loans": 13697
+      },
+      {
+        "predicted": 0.0689,
+        "actual": 0.0779,
+        "loans": 13697
+      },
+      {
+        "predicted": 0.0814,
+        "actual": 0.0923,
+        "loans": 13696
+      },
+      {
+        "predicted": 0.0994,
+        "actual": 0.1047,
+        "loans": 13697
+      },
+      {
+        "predicted": 0.1057,
+        "actual": 0.1262,
+        "loans": 13697
+      },
+      {
+        "predicted": 0.1217,
+        "actual": 0.1371,
+        "loans": 13696
+      },
+      {
+        "predicted": 0.145,
+        "actual": 0.154,
+        "loans": 13697
+      },
+      {
+        "predicted": 0.1635,
+        "actual": 0.1764,
+        "loans": 13696
+      },
+      {
+        "predicted": 0.1792,
+        "actual": 0.2017,
+        "loans": 13697
+      },
+      {
+        "predicted": 0.2299,
+        "actual": 0.2476,
+        "loans": 13697
+      }
+    ]
+  },
+  "policy_test": {
+    "approve_all": {
+      "threshold": 1.01,
+      "approval_rate": 1.0,
+      "default_rate_approved": 0.13691619149138112,
+      "net_cash": 153864454.65028834,
+      "return_on_funded": 0.08907042793005218
+    },
+    "decline_threshold": {
+      "threshold": 0.28,
+      "approval_rate": 1.0,
+      "default_rate_approved": 0.13691619149138112,
+      "net_cash": 153864454.65028834,
+      "return_on_funded": 0.08907042793005218
+    },
+    "flag_within_grade": {
+      "buy_all": {
+        "loans": 136967,
+        "default_rate": 0.13691619149138112,
+        "return_on_funded": 0.08907042793005218
+      },
+      "skip_flagged": {
+        "loans": 92487,
+        "default_rate": 0.11918431779601457,
+        "return_on_funded": 0.09491247821629038
+      },
+      "flagged_only": {
+        "loans": 44480,
+        "default_rate": 0.17378597122302158,
+        "return_on_funded": 0.07633500825191926
+      },
+      "share_flagged": 0.32474975724079524,
+      "by_grade": [
+        {
+          "grade": "A",
+          "flag": false,
+          "loans": 20114.0,
+          "default_rate": 0.0439,
+          "return_on_funded": 0.0767
+        },
+        {
+          "grade": "A",
+          "flag": true,
+          "loans": 8904.0,
+          "default_rate": 0.0761,
+          "return_on_funded": 0.0716
+        },
+        {
+          "grade": "B",
+          "flag": false,
+          "loans": 31409.0,
+          "default_rate": 0.0912,
+          "return_on_funded": 0.102
+        },
+        {
+          "grade": "B",
+          "flag": true,
+          "loans": 14440.0,
+          "default_rate": 0.1407,
+          "return_on_funded": 0.0837
+        },
+        {
+          "grade": "C",
+          "flag": false,
+          "loans": 24140.0,
+          "default_rate": 0.1511,
+          "return_on_funded": 0.1011
+        },
+        {
+          "grade": "C",
+          "flag": true,
+          "loans": 12706.0,
+          "default_rate": 0.2101,
+          "return_on_funded": 0.0788
+        },
+        {
+          "grade": "D",
+          "flag": false,
+          "loans": 11083.0,
+          "default_rate": 0.1989,
+          "return_on_funded": 0.1003
+        },
+        {
+          "grade": "D",
+          "flag": true,
+          "loans": 6119.0,
+          "default_rate": 0.2585,
+          "return_on_funded": 0.0673
+        },
+        {
+          "grade": "E",
+          "flag": false,
+          "loans": 4445.0,
+          "default_rate": 0.2421,
+          "return_on_funded": 0.0883
+        },
+        {
+          "grade": "E",
+          "flag": true,
+          "loans": 1622.0,
+          "default_rate": 0.3249,
+          "return_on_funded": 0.0578
+        },
+        {
+          "grade": "F",
+          "flag": false,
+          "loans": 1211.0,
+          "default_rate": 0.2642,
+          "return_on_funded": 0.1184
+        },
+        {
+          "grade": "F",
+          "flag": true,
+          "loans": 617.0,
+          "default_rate": 0.3501,
+          "return_on_funded": 0.0577
+        },
+        {
+          "grade": "G",
+          "flag": false,
+          "loans": 85.0,
+          "default_rate": 0.3176,
+          "return_on_funded": 0.066
+        },
+        {
+          "grade": "G",
+          "flag": true,
+          "loans": 72.0,
+          "default_rate": 0.3611,
+          "return_on_funded": 0.1004
+        }
+      ]
+    },
+    "grade_cutoffs": {
+      "A": 0.10229357798165138,
+      "B": 0.14193834553115992,
+      "C": 0.16743958994386135,
+      "D": 0.18241559030138227,
+      "E": 0.20399251403618215,
+      "F": 0.20399251403618215,
+      "G": 0.19859828310248218
+    },
+    "returns_by_decile": [
+      {
+        "decile": 1,
+        "loans": 13697.0,
+        "default_rate": 0.0512,
+        "return_on_funded": 0.0887
+      },
+      {
+        "decile": 2,
+        "loans": 13697.0,
+        "default_rate": 0.0779,
+        "return_on_funded": 0.0929
+      },
+      {
+        "decile": 3,
+        "loans": 13696.0,
+        "default_rate": 0.0923,
+        "return_on_funded": 0.0988
+      },
+      {
+        "decile": 4,
+        "loans": 13697.0,
+        "default_rate": 0.1047,
+        "return_on_funded": 0.0971
+      },
+      {
+        "decile": 5,
+        "loans": 13697.0,
+        "default_rate": 0.1262,
+        "return_on_funded": 0.0935
+      },
+      {
+        "decile": 6,
+        "loans": 13696.0,
+        "default_rate": 0.1371,
+        "return_on_funded": 0.0947
+      },
+      {
+        "decile": 7,
+        "loans": 13697.0,
+        "default_rate": 0.154,
+        "return_on_funded": 0.0889
+      },
+      {
+        "decile": 8,
+        "loans": 13696.0,
+        "default_rate": 0.1764,
+        "return_on_funded": 0.0855
+      },
+      {
+        "decile": 9,
+        "loans": 13697.0,
+        "default_rate": 0.2017,
+        "return_on_funded": 0.0805
+      },
+      {
+        "decile": 10,
+        "loans": 13697.0,
+        "default_rate": 0.2476,
+        "return_on_funded": 0.0653
+      }
+    ]
+  },
+  "stability": {
+    "score_psi_train_vs_test": 0.014454805962276945,
+    "feature_psi_train_vs_test": {
+      "loan_amnt": 0.06591176381721431,
+      "log_annual_inc": 0.0215391745438577,
+      "loan_to_income": 0.01826603600669156,
+      "dti": 0.11058049545392248,
+      "emp_length_years": 0.05113180025203147,
+      "credit_history_months": 0.12944820389185097,
+      "delinq_2yrs": 0.05167929570029027,
+      "inq_last_6mths": 0.0037158266829065956,
+      "mths_since_last_delinq": 0.039804191910708005,
+      "mths_since_last_record": 0.9209101959202923,
+      "open_acc": 0.08742078132753131,
+      "pub_rec": 0.0,
+      "revol_bal": 0.047056962028499565,
+      "revol_util": 0.0793726164854597,
+      "total_acc": 0.07373403120693747,
+      "pub_rec_bankruptcies": 0.0
+    }
+  },
+  "shap_mean_abs": {
+    "revol_util": 0.2334,
+    "log_annual_inc": 0.198,
+    "inq_last_6mths": 0.1617,
+    "addr_state": 0.1313,
+    "loan_to_income": 0.1221,
+    "open_acc": 0.1087,
+    "purpose": 0.1034,
+    "revol_bal": 0.068,
+    "mths_since_last_delinq": 0.0613,
+    "dti": 0.058,
+    "mths_since_last_record": 0.0562,
+    "emp_length_years": 0.0478,
+    "credit_history_months": 0.0439,
+    "loan_amnt": 0.0363,
+    "total_acc": 0.0344,
+    "home_ownership": 0.0312,
+    "pub_rec_bankruptcies": 0.0122,
+    "delinq_2yrs": 0.0073,
+    "verification_status": 0.0063,
+    "pub_rec": 0.0031
+  }
+}
