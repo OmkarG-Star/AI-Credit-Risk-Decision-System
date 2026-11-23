@@ -2,7 +2,7 @@
 
 Probability-of-default model for 36-month Lending Club loans, trained on 2007–2012 and tested on 136,967 loans issued in 2014 that the model never saw.
 
-**Live demo:** _link added after deployment_
+**Live demo: [credit-risk-lending-club.onrender.com](https://credit-risk-lending-club.onrender.com)** (free hosting, so the first load can take about a minute).
 
 ## Results at a glance
 
