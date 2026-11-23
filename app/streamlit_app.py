@@ -52,9 +52,9 @@ left, right = st.columns([1, 1.2], gap="large")
 with left:
     st.subheader("Application")
     c1, c2 = st.columns(2)
-    loan = c1.number_input("Loan amount ($)", 1000, 35000, 12000, step=500)
-    income = c2.number_input("Annual income ($)", 4000, 1_000_000, 60000, step=1000)
-    dti = c1.number_input("Debt-to-income (%)", 0.0, 40.0, 17.0, step=0.5)
+    loan = c1.number_input("Loan amount (US $)", min_value=500, value=12000, step=500)
+    income = c2.number_input("Annual income (US $)", min_value=1000, value=60000, step=1000)
+    dti = c1.number_input("Debt-to-income (%)", min_value=0.0, value=17.0, step=0.5)
     emp = c2.selectbox("Years employed", ["< 1 year"] + [f"{i} years" for i in range(1, 10)] + ["10+ years"], 6)
     home = c1.selectbox("Home ownership", [c for c in cats["home_ownership"] if c in {"RENT", "MORTGAGE", "OWN"}])
     ver = c2.selectbox("Income verification", cats["verification_status"])
@@ -66,8 +66,8 @@ with left:
     last_delinq = c2.number_input("Months since last delinquency (0 = never)", 0, 150, 0)
     open_acc = c1.number_input("Open accounts", 0, 60, 10)
     total_acc = c2.number_input("Total accounts", 1, 100, 24)
-    revol_bal = c1.number_input("Revolving balance ($)", 0, 500_000, 14000, step=500)
-    revol_util = c2.number_input("Revolving utilisation (%)", 0.0, 150.0, 55.0, step=1.0)
+    revol_bal = c1.number_input("Revolving balance (US $)", min_value=0, value=14000, step=500)
+    revol_util = c2.number_input("Revolving utilisation (%)", min_value=0.0, value=55.0, step=1.0)
     pub_rec = c1.number_input("Public records", 0, 10, 0)
     bankr = c2.number_input("Bankruptcies", 0, 5, 0)
     grade = st.selectbox("Lending Club grade for this loan", list("ABCDEFG"), 1)
@@ -88,8 +88,22 @@ cut = scorer.grade_cutoffs[grade]
 avg = scorer.grade_avg_pd[grade]
 flagged = pd_hat >= cut
 
+# Ranges seen in the 2007-2012 training loans. Outside them a tree model
+# scores the input as if it were at the edge, so the result is not reliable.
+TRAINED_RANGE = {
+    "Loan amount": (loan, 500, 35000, "${:,.0f}"),
+    "Debt-to-income": (dti, 0, 35, "{:.0f}%"),
+    "Revolving utilisation": (revol_util, 0, 104, "{:.0f}%"),
+}
+outside = [f"{name} ({fmt.format(v)}; trained on {fmt.format(lo)} to {fmt.format(hi)})"
+           for name, (v, lo, hi, fmt) in TRAINED_RANGE.items() if not lo <= v <= hi]
+
 with right:
     st.subheader("Result")
+    if outside:
+        st.warning("Outside what the model learned from: " + "; ".join(outside) + ". "
+                   "Lending Club capped loans at $35,000 in 2007-2014, so the model scores "
+                   "larger values as if they were at that cap. Treat this result as unreliable.")
     m1, m2, m3 = st.columns(3)
     m1.metric("Probability of default", f"{pd_hat:.1%}")
     m2.metric(f"Average for grade {grade}", f"{avg:.1%}")
